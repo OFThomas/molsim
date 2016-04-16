@@ -1,0 +1,8 @@
+Production run, 256 particles, density=0.7, T*=1.50
+equil_.out
+prod_.out
+10000
+0.004
+0.7
+-1
+.1
