@@ -1,7 +1,7 @@
 #
 # MD3: a minimal molecular dynamics program
 #
-# Equilibrate 256 particles, density=0.7, T*=1.70
+# Equilibrate 256 particles, density=0.7, T*=1.7
 #  Input sample: initial_coords_256
 #                                (only positions read from file)
 # Output sample: equil_170.out

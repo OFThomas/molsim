@@ -1,7 +1,7 @@
 #
 # MD3: a minimal molecular dynamics program
 #
-# Production run,256 particles,density=0.7,T*=1.70
+# Production run, 256 particles, density=0.7, T*=1.7
 #  Input sample: equil_170.out
 #          (positions, velocities, accelerations read from file)
 # Output sample: prod_170.out
