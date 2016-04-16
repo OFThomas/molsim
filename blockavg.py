@@ -2,12 +2,11 @@
 import numpy as np
 import os
 
-os.chdir(r'C:\Users\Oliver\Desktop')
+#os.chdir(r'C:\Users\Oliver\Desktop')
 #print os.getcwd()
+data = 'prod_170.tup'
 
-#data_array = np.genfromtxt('data.txt', delimiter=',')
-#data_array = np.loadtxt('data.txt', delimiter=',', usecols=[0])
-data_array = np.genfromtxt('data.txt')
+data_array = np.genfromtxt(data, usecols=[0,4])
 
 print 'Input data', data_array
 
