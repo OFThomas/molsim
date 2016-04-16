@@ -1,0 +1,231 @@
+
+			    WHICH PROGRAM TO USE?
+			    =====================
+
+md1, md2 and md3 do the same thing: simulation using a Lennard-Jones
+potential.  md1 is the simplest of them, and its operation was
+described in the second lecture.  md2 and md3 use some tricks to
+speed things up; these tricks have been explained in the fourth lecture.
+md3glue is a version of md3 using a "glue" many-body potential 
+describing aluminum, introduced in the fifth lecture, in place of the 
+Lennard-Jones potential.
+
+Become acquainted with md1 before moving on to other versions.
+You will always need program crystal to generate an initial sample.
+
+------------------------------------------------------------------------------
+
+                         COMPILING AND RUNNING crystal
+                         =============================
+
+First of all, you must generate a configuration to start from.
+Program 'crystal' is used to arrange atoms in a crystalline fcc
+structure, adding random displacements.
+
+To compile crystal:
+	f90 -o crystal crystal.f90
+
+To run crystal:
+	crystal
+	
+Crystal is interactive: it will ask you the lattice spacing of the fcc
+crystal (the equilibrium lattice spacing of the LJ potential is 1.5496;
+that of aluminum is 4.032; do not deviate too much from the value
+relative to the system you chose), the number of unit fcc cells 
+(containing 4 atoms each) to stack along this direction (do not put less 
+than what suggested to satisfy the minimum image criterion), the maximum 
+random displacement (something like 0.05 would do), and the file name.
+The resulting file can be given as input to md1/md2/md3/md3glue, and to 
+ballroom.
+
+------------------------------------------------------------------------------
+
+                         COMPILING AND RUNNING md1
+                         =========================
+
+To compile md1:
+	f90 -o md1 md1.f90
+
+To run md1 with output on the screen:
+	md1 < testrun.in
+To run md1 with output on a file:
+	md1 < testrun.in > testrun.out
+
+The input for the md1 program (file testrun.in in the examples above)
+consists of 7 lines:
+
+LINE 1: An arbitrary string which is the title given to the calculation
+LINE 2: Name of the file containing the input sample
+LINE 3: Name of the file to contain the output sample
+LINE 4: Number of time steps
+LINE 5: Amplitude of a time step (typical value: 0.0032)
+LINE 6: A density for the system.  The box volume is rescaled at the
+        beginning to match your density.  A value of zero leaves the box
+        unchanged (which is probably the most common setting).
+LINE 7: A negative number such as -1 indicates a constant E (free evolution)
+        run.  This is a very common setting, to be preferred when
+        measurements are performed.
+        A null or positive number indicates the temperature T for a 
+        constant T run.  This is the main mechanism to use to change
+        the system temperature.
+
+Densities and temperatures are given in Lennard-Jones units.
+The density of the equilibrium fcc crystal at T=0 is 1.075,
+and decreases to values like 0.7-0.8 for a liquid above the
+triple point.  The triple point is located at a temperature of 
+about 0.7 in LJ units.
+
+Example of an input file:
+----
+My first MD calculation deserves a better title than this one
+sample01.dat
+sample02.dat
+100
+0.0032
+0
+-1
+----
+This does a 100 step calculation (using a time step of 0.0032), continuing 
+from sample01.dat previously generated (or created by crystal), and writing 
+on sample02.dat at the end, at the same density and at constant energy.
+
+Another example:
+----
+But this title is no better than the previous one, come on.
+sample02.dat
+sample03.dat
+50
+0.0032
+1.05
+0.5
+----
+This does a 50 step calculation, attaching to sample02.dat but setting
+the density at 1.05 and the temperature at 0.5.  The output sample will
+go into file sample03.dat.
+
+------------------------------------------------------------------------------
+
+                         COMPILING AND RUNNING md2
+                         =========================
+
+Everything as for md1.  md2 differs in the force computation routine,
+which uses tables for the potential in place of an analytical
+calculation.  In the particular case of Lennard-Jones, this does not 
+improve the speed much, but this technique can be convenient when using 
+more complex potentials, and it also allow for a more general code.
+
+------------------------------------------------------------------------------
+
+                         COMPILING AND RUNNING md3
+                         =========================
+
+Compilations as for md1/md2.  md3 differs in that it uses a Verlet neighbor
+list with automatic updating.  This improves speed dramatically, and
+particularly if the system under study is large.
+An eighth line must be added to the input file:
+
+LINE 8: The value chosen for the Skin.
+
+The Skin is added to the potential Range (the cutoff, here located at 2.5
+in the Lennard-Jones units that we are using).
+Skin changes the CPU time but has no effect on trajectories.  
+For a given thermodynamic state (temperature, density), there is a value 
+of Skin which optimizes CPU time.
+A skin too large could cause the program to stop, due to insufficient
+maximum size for the list.
+
+------------------------------------------------------------------------------
+
+                         COMPILING AND RUNNING md3glue
+                         =============================
+
+md3glue is similar to md3, but forces are derived from an ab-initio
+derived glue potential for Aluminum.
+
+To compile md3glue:
+	f90 -o md3glue md3glue.f90 aluminum.f
+(aluminum.f is a short Fortran 77 code containing the three functions
+which constitute the Al potential. md3glue uses them once to build up
+the internal potential tables).
+
+Input as for md3, however now all distances are in A, energies in eV
+and temperature in K.  The relevant Aluminum data are the following:
+Equilibrium lattice spacing at T=0, P=0: 4.032 A
+Cohesive energy: -3.36 eV/atom
+Melting temperature (with this potential): about 939 K.
+Thank to a softer core repulsion, one can choose a time step much
+larger than that required by Lennard-Jones.
+The output of runs with Deltat=0.02 , Skin=0.5 looks quite reasonable.
+
+------------------------------------------------------------------------------
+
+                 OBTAINING TIME-DEPENDENT PLOTS WITH gnuplot
+                 ===========================================
+
+All the programs (md1/md2/md3/md3glue) produce an output file that can be 
+directly used to produce plots as a function of time, using the standard 
+utility gnuplot.  (This is why all the lines that do not contain time
+step data begin with a '#': gnuplot interprets it as a comment, so you
+do not have to bother to inform it to disregard these lines).
+
+For instance, to plot the pressure as a function of time use, for instance,
+
+# md3 < lj5.in > lj5.out                           (writes output on lj5.out)
+# gnuplot                                          (calls gnuplot)
+gnuplot> plot "lj5.out" using 1:6 with lines
+gnuplot> quit
+
+The "1:6" means "use columns 1 and 6", which are the time step number
+and the pressure.  Instead of 6, use 2 for temperature, 3 for kinetic energy,
+4 for potential energy, 5 for total energy.
+
+------------------------------------------------------------------------------
+
+                      LOOKING AT SAMPLES WITH ballroom
+                      ================================
+
+This section requires you to have a copy of ballroom
+( http://www.sissa.it/~furio/ballroom.html ) installed on your machine.
+
+To see a sample, use the command
+	ballroom samplename
+
+and then type
+	read x y z
+	radius 0.4
+	mode 1
+	<other commands>
+	display
+	<other commands>
+	display
+	...
+	quit
+	
+This will leave in your directory a PostScript file named samplename.ps
+(where samplename is the name you have given to your sample) containing
+the image.  Look at this image with GhostScript:
+	gs samplename.ps
+	
+Among the <other commands> above, you can change the observation point.
+The program works in a polar reference frame.
+Initially , THETA=90, PHI=0, RHO=10000 (very far), corresponding to
+looking from the positive x axis towards the origin. Try for instance
+	theta 70
+	phi 30
+	rho 100
+	display
+	
+You can stack boxes together to verify PBC matching as in
+	boxes 1 2 1
+
+You can see the atomic indexes with
+	lshow 2
+
+And so on.  Use
+	help
+for general information, or
+	<command name> ?
+to get usage information on a specific command.
+
+
+	
