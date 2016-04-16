@@ -6,17 +6,18 @@ import os
 #print os.getcwd()
 data = 'prod_170.tup'
 
-data_array = np.genfromtxt(data, usecols=[0,4])
+time, u = np.genfromtxt(data, usecols=[0,4], unpack=True)
 
-print 'Input data', data_array
+print 'Input data', time, u
 
 #Number of elements to average over
-intervals=2
+intervals=1000
 
 ##Block averaging##
-avgdata = np.mean(data_array.reshape(-1, intervals), 1)
+avg_time = np.mean(time.reshape(-1, intervals), 1)
+avg_u = np.mean(u.reshape(-1, intervals), 1)
 
-print 'Averaged data', avgdata
+print 'Averaged data', avg_time, avg_u
 
 #write block averaged to file
-np.savetxt('avgdata.dat', avgdata, delimiter=" ", fmt="%15.10f")
+np.savetxt('avgdata.dat', (avg_time, avg_u), delimiter=" ", fmt="%15.10f")
