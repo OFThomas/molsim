@@ -1,4 +1,4 @@
-# molecular sim 
+# molecular sim this is not a readme
 
 Block averaging code to read Internal enegy U and Temp T
 > Find Std 
