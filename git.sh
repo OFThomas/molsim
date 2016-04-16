@@ -6,4 +6,4 @@ echo added
 git commit -a
 echo Committed
 git push
-echo All done!
+echo All done! Well Done! Good Job!
