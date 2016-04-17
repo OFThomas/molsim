@@ -69,10 +69,11 @@ fi
 string=$(tail -1 $prod.tup)
 averages=$(echo $string | awk '{print $3,$4,$5,$6,$7}')
 #echo "Temperature, Kinetic, Potential, Total Energy, Pressure"
+echo $averages
 echo $averages > "$dest_mean"
 echo "written to meanvals.dat"
 
-#python curvefitting.py << EOF 
-#$prod
-#EOF
-#echo Graph saved
+python curvefitting.py << EOF 
+$prod
+EOF
+echo Graph saved

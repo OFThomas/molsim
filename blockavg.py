@@ -5,12 +5,9 @@ import os
 #os.chdir(r'C:\Users\Oliver\Desktop')
 #print os.getcwd()
 
-def blockavg(quantity, bn):
-  avg_quan = np.mean(quantity.reshape(-1, intervals), 1, dtype=np.float64)
-  return avg_quan
+
 
 #data = 'prod_170.tup'
-
 
 time, u = np.genfromtxt(data, usecols=[0,4], unpack=True)
 
