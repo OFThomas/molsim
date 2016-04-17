@@ -1,0 +1,78 @@
+Timesteps 100000
+
+1.00 0.991774 1.487660 -4.149408 -2.661747 0.504763
+1.1 1.092936 1.639404 -4.081606 -2.442202 0.843735
+Timesteps 100000
+
+1.00 equil_100.out not found.
+1.1 equil_110.out not found.
+1.2 equil_120.out not found.
+1.3 equil_130.out not found.
+1.4 equil_140.out not found.
+1.5 equil_150.out not found.
+1.6 equil_160.out not found.
+1.7 equil_170.out not found.
+1.8 equil_180.out not found.
+1.9 equil_190.out not found.
+2 equil_200.out not found.
+2.1 equil_210.out not found.
+2.2 equil_220.out not found.
+2.3 equil_230.out not found.
+2.4 equil_240.out not found.
+2.5 equil_250.out not found.
+Timesteps 100000
+
+1.00 equil_100.out not found.
+1.1 equil_110.out not found.
+1.2 equil_120.out not found.
+1.3 equil_130.out not found.
+1.4 equil_140.out not found.
+1.5 equil_150.out not found.
+1.6 equil_160.out not found.
+1.7 equil_170.out not found.
+1.8 equil_180.out not found.
+1.9 equil_190.out not found.
+2 equil_200.out not found.
+2.1 equil_210.out not found.
+2.2 equil_220.out not found.
+2.3 equil_230.out not found.
+2.4 equil_240.out not found.
+2.5 equil_250.out not found.
+Timesteps 100000
+
+1.00 equil_100.out not found.
+1.1 equil_110.out not found.
+1.2 equil_120.out not found.
+1.3 equil_130.out not found.
+1.4 equil_140.out not found.
+1.5 equil_150.out not found.
+1.6 equil_160.out not found.
+1.7 equil_170.out not found.
+1.8 equil_180.out not found.
+1.9 equil_190.out not found.
+2 equil_200.out not found.
+2.1 equil_210.out not found.
+2.2 equil_220.out not found.
+2.3 equil_230.out not found.
+2.4 equil_240.out not found.
+2.5 equil_250.out not found.
+Timesteps 100000
+
+Timesteps 100000
+
+1.00 0.991774 1.487660 -4.149408 -2.661747 0.504763
+1.1 1.092936 1.639404 -4.081606 -2.442202 0.843735
+1.2 1.226199 1.839299 -3.997948 -2.158649 1.269134
+1.3 1.266013 1.899019 -3.972982 -2.073963 1.398388
+1.4 1.410991 2.116487 -3.885122 -1.768635 1.848710
+1.5 1.474690 2.212035 -3.849573 -1.637538 2.035019
+1.6 1.557200 2.335800 -3.799993 -1.464193 2.291142
+1.7 1.685612 2.528418 -3.727030 -1.198612 2.666729
+1.8 1.799605 2.699407 -3.664250 -0.964842 2.988785
+1.9 1.853627 2.780441 -3.633748 -0.853307 3.145146
+2 2.030755 3.046133 -3.538828 -0.492695 3.643191
+2.1 2.133021 3.199531 -3.482563 -0.283032 3.925286
+2.2 2.305490 3.458236 -3.391960 0.066276 4.397495
+2.3 2.286949 3.430424 -3.405741 0.024683 4.332214
+2.4 2.402277 3.603416 -3.343603 0.259813 4.645833
+2.5 2.467819 3.701728 -3.310232 0.391496 4.817678

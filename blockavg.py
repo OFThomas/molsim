@@ -15,16 +15,17 @@ data_tup = data + '.tup'
 time, t, k, pot, u, p = np.genfromtxt(data_tup, usecols=[0,1,2,3,4,5], unpack=True)
 
 #Number of elements to average over
-intervals=10000
+print time.size
+intervals=(time.size/100.0)
 
 ##Block averaging##
 avg_time = blockavg(time, intervals)
 avg_u = blockavg(u, intervals)
 print 
-print 'Averaged data', avg_time, avg_u
-
+#print 'Averaged data', avg_time, avg_u
+avgdata = 'b_avg_' + data + '.dat'
 #write block averaged to file
-np.savetxt('avgdata.dat', (avg_time, avg_u), delimiter=" ", fmt="%15.10f")
+np.savetxt(avgdata, (avg_time, avg_u), delimiter=" ", fmt="%15.10f")
 
 plt.plot(time,u)
 plt.savefig(data, format='png')

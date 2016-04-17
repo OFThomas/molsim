@@ -4,7 +4,11 @@ gfortran -o md3 md3.f90
 # echo compiled
 
 #Production timesteps
-n_timestep="10000"
+n_timestep="100000"
+dest_mean=/home/oliver/Desktop/molsim/meanvals.dat
+echo "Timesteps" $n_timestep >> "$dest_mean"
+echo "Temperature, Kinetic, Potential, Total Energy, Pressure" >> "$dest_mean"
+echo >> "$dest_mean"
 
 n_ts_equib="10000"
 timestep="0.004"
@@ -16,14 +20,12 @@ end_temp="2.5"
 
 while [ 0 -lt $(echo $temp $end_temp | awk '{if ($1<=$2) print 1; else print 0;}') ]
 do
-
 echo $temp
 
 tname=$(echo $temp | awk '{print $1*100}') 
 equil="equil_$tname" && prod="prod_$tname"
-dest_mean=/home/oliver/Desktop/molsim/meanvals.dat
 
-if ! [ -s $equil.tup ]; then
+if ! [ -s $equil.out ]; then
   echo "Not there"
 
 #rm $crystal
@@ -52,6 +54,9 @@ EOF
 time ./md3 <$equil.in >$equil.tup 
 echo Equil done
 
+else
+  echo "It is there, skip to production"
+fi
   #Create Production file
 cat <<EOF >$prod.in
 Production run, 256 particles, density=$density, T*=$temp
@@ -67,15 +72,12 @@ EOF
 time ./md3 <$prod.in >$prod.tup 
 echo Prod done
 
-else
-  echo "It is there, skip to results"
-fi
-
 #Grab last line which has the average values
 string=$(tail -1 $prod.tup)
 averages=$(echo $string | awk '{print $3,$4,$5,$6,$7}')
-echo "Temperature, Kinetic, Potential, Total Energy, Pressure"
-echo $temp $averages
+
+#echo "Temperature, Kinetic, Potential, Total Energy, Pressure"
+#echo $temp $averages
 echo $temp $averages >> "$dest_mean"
 echo "written to meanvals.dat"
 
@@ -86,4 +88,9 @@ echo Graph saved
 
 #incriment Temp
 temp=$(echo $temp | awk '{print $1+0.1}')
+
+for file in  ./*.in
+do
+rm $file
+done
 done
