@@ -1,8 +1,0 @@
-Equilibrate 256 particles, density=0.7, T*=1.7
-initial_coords_256
-equil_170.out
-10000
-0.0032
-0.7
-1.7
-.1

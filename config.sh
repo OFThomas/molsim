@@ -11,13 +11,19 @@ timestep="0.004"
 density="0.7"
 crystal="initial_coords_256"
 
-temp=1.60
+temp="1.00"
+end_temp="2.5"
+
+while [ 0 -lt $(echo $temp $end_temp | awk '{if ($1<=$2) print 1; else print 0;}') ]
+do
+
+echo $temp
 
 tname=$(echo $temp | awk '{print $1*100}') 
 equil="equil_$tname" && prod="prod_$tname"
 dest_mean=/home/oliver/Desktop/molsim/meanvals.dat
 
-if ! [ -s $prod.tup ]; then
+if ! [ -s $equil.tup ]; then
   echo "Not there"
 
 #rm $crystal
@@ -68,12 +74,16 @@ fi
 #Grab last line which has the average values
 string=$(tail -1 $prod.tup)
 averages=$(echo $string | awk '{print $3,$4,$5,$6,$7}')
-#echo "Temperature, Kinetic, Potential, Total Energy, Pressure"
-echo $averages
-echo $averages > "$dest_mean"
+echo "Temperature, Kinetic, Potential, Total Energy, Pressure"
+echo $temp $averages
+echo $temp $averages >> "$dest_mean"
 echo "written to meanvals.dat"
 
-python curvefitting.py << EOF 
+python blockavg.py << EOF 
 $prod
 EOF
 echo Graph saved
+
+#incriment Temp
+temp=$(echo $temp | awk '{print $1+0.1}')
+done
