@@ -4,18 +4,24 @@ import os
 
 #os.chdir(r'C:\Users\Oliver\Desktop')
 #print os.getcwd()
-data = 'prod_170.tup'
+
+def blockavg(quantity, bn):
+  avg_quan = np.mean(quantity.reshape(-1, intervals), 1, dtype=np.float64)
+  return avg_quan
+
+#data = 'prod_170.tup'
+
 
 time, u = np.genfromtxt(data, usecols=[0,4], unpack=True)
 
 print 'Input data', time, u
 
 #Number of elements to average over
-intervals=1000
+intervals=10000
 
 ##Block averaging##
-avg_time = np.mean(time.reshape(-1, intervals), 1)
-avg_u = np.mean(u.reshape(-1, intervals), 1)
+avg_time = blockavg(time, intervals)
+avg_u = blockavg(u, intervals)
 
 print 'Averaged data', avg_time, avg_u
 
