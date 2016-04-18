@@ -4,7 +4,7 @@ gfortran -o md3 md3.f90
 # echo compiled
 
 #Production timesteps
-n_timestep="100000"
+n_timestep="200000"
 dest_mean=/home/oliver/Desktop/molsim/meanvals.dat
 echo "Timesteps" $n_timestep >> "$dest_mean"
 echo "Temperature, Kinetic, Potential, Total Energy, Pressure" >> "$dest_mean"
@@ -81,10 +81,10 @@ averages=$(echo $string | awk '{print $3,$4,$5,$6,$7}')
 echo $temp $averages >> "$dest_mean"
 echo "written to meanvals.dat"
 
-python blockavg.py << EOF 
-$prod
-EOF
-echo Graph saved
+#python blockavg.py << EOF 
+#$prod
+#EOF
+#echo Graph saved
 
 #incriment Temp
 temp=$(echo $temp | awk '{print $1+0.1}')

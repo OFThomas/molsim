@@ -25,7 +25,7 @@ data_tup = data + '.tup'
 time, t, k, pot, u, p = np.genfromtxt(data_tup, usecols=[0,1,2,3,4,5], unpack=True)
 
 #number of block lengths to try
-n_block = 1000.0
+n_block = 100000.0
 #Allocate arrays
 b_length = np.zeros(n_block)
 std_dev = np.zeros(n_block)
@@ -49,11 +49,11 @@ while (c < n_block):
     while ((time.size % c) != 0  ):
       c += 1
     b_length[i] = c 
-  #c = b_length[i]
-  print b_length[i]
+
+  #print b_length[i]
   #Number of blocks to average over
   intervals=(time.size/b_length[i])
-  print intervals
+  #print intervals
   ##Block averaging##
   avg_u = blockavg(u, intervals)
  
@@ -63,15 +63,16 @@ while (c < n_block):
   i += 1
   c=c+1
   
-  #print 'Averaged data', avg_time, avg_u
-  avgdata = 'b_avg_' + data + '.dat'
+#print 'Averaged data', avg_time, avg_u
+avgdata = 'b_avg_' + data + '.dat'
   
-  #write block averaged to file
-  #np.savetxt(avgdata, (avg_time, avg_u), delimiter=" ", fmt="%15.10f")
-print b_length[0:i], std_dev[0:i]
-plt.plot(b_length[0:i], std_dev[0:i]) 
+#write block averaged to file
+np.savetxt(avgdata, (b_length[0:i],std_dev[0:i]), delimiter=" ", fmt="%15.10f")
 
+print b_length[i-2:i], std_dev[i-2:i]
+plt.plot(b_length[0:i], std_dev[0:i]) 
+d_name = 'std' + data
 #plt.plot(time,u)
-plt.savefig(data, format='png')
-plt.show()
+plt.savefig(d_name, format='png')
+#plt.show()
 
