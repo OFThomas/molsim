@@ -25,7 +25,7 @@ data_tup = data + '.tup'
 time, t, k, pot, u, p = np.genfromtxt(data_tup, usecols=[0,1,2,3,4,5], unpack=True)
 
 #number of block lengths to try
-n_block = 100000.0
+n_block = 200000.0
 #Allocate arrays
 b_length = np.zeros(n_block)
 std_dev = np.zeros(n_block)
