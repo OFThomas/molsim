@@ -60,13 +60,17 @@ while (numberofblocks <= n_block):
   else:
     #Number of blocks to average over
     #numberofblocks=(time.size/b_length[i])
-    numberofblocks=2**i
-    print 'nb', numberofblocks
-
+    
+    #can use integer division to round down to deal with left over elements
+    numberofblocks=(u.size)//(2**i)
+    
     ##Block averaging##
     if (avg_u.size % numberofblocks != 0):
       numberofblocks -=  1
       #to skip last odd element
+    
+    print 'nb', numberofblocks
+    b_length[i]=2**i
     avg_u = blockavg(avg_u, numberofblocks)
  
     #calc std deviation for block length
