@@ -1,14 +1,19 @@
 #!/bin/bash
 import numpy as np
 import matplotlib.pyplot as plt
-import os
+#to include floating point division by default
+from __future__ import division
 
 #os.chdir(r'C:\Users\Oliver\Desktop')
 
 def blockavg(quantity, blocklen):
-  blocked_quan = np.mean(quantity.reshape(-1, blocklen), 1, dtype=np.float64)
-  #print len(blocked_quan)
-  #print blocked_quan
+  #blocked_quan = np.mean(quantity.reshape(-1, blocklen), 1, dtype=np.float64)
+  
+  
+  for i in range(0,len(nb-1)):
+    blocked_quan[i]=(quantity[i]+quantity[i+1])/2.0
+
+
   return blocked_quan
 
 def std_deviation(array):
