@@ -60,29 +60,24 @@ while (numberofblocks > 1000):
   
   #Calculating the standard deviation
   std_dev.append(standarddev(avg_u))
+  
+#To find real value of std_dev search for steps where the difference is minium
+#as the gradient will be the smallest value. Then element k-1 is the true std_dev
   diff = abs(std_dev[i-1]-std_dev[i])
-   ##if smallest gradient save element
+  
+  ##if smallest gradient save element
   if (diff < mindiff):
      mindiff = diff
      true_stddev = std_dev[i-1]
+     element = i-1
      
   u_err.append(std_deviation(avg_u))
 
   i += 1
 
-#To find real value of std_dev search for steps where the difference is minium
-#as the gradient will be the smallest value. Then element k-1 is the true std_dev
-#mindiff = max(std_dev)
-#for (k in range(1,len(std_dev)):
-   #diff = abs(std_dev[k-1]-std_dev[k])
-   ##if smallest gradient save element
-   #if (diff < mindiff):
-     #mindiff = diff
-     #minelement = k-1
-     
-#true_std = std_dev[minelement]
+#print 'With a block length of ',b_length[element]
+#print 'Standard deviation =', true_stddev
 print true_stddev
-print std_dev
 
 #write block averaged to file
 avgdata = 'avg' + data + '.dat'

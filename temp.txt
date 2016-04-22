@@ -1,0 +1,2 @@
+enter prod tup name: With a block length of  8
+Standard deviation = 1.4869788887e-06
