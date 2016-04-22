@@ -4,8 +4,6 @@ from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
 
-#os.chdir(r'C:\Users\Oliver\Desktop')
-
 #Halves number of elements in the array
 def blockavg(quantity, nb):
   blocked_quan=[]
@@ -22,7 +20,7 @@ def standarddev(data):
   s=0
   count=0
   mean=np.mean(data, dtype=np.float64)
-  #Do for number of blocks
+  #Do for number of blocks, array index is from 0 to n-1
   while (count < len(data)):
     s = s + ((data[count] - mean )**2)
     count += 1
@@ -34,9 +32,6 @@ data_tup = data + '.tup'
 
 #unpack the data from the .tup
 time, t, k, pot, u, p = np.genfromtxt(data_tup, usecols=[0,1,2,3,4,5], unpack=True)
-
-#number of block lengths to try
-n_block = 1024.0
 
 #Allocate arrays
 b_length = []
@@ -54,9 +49,9 @@ u_err.append(std_deviation(u))
 avg_u = u
 
 i=1
-while (numberofblocks > 6):
+mindiff = 10
+while (numberofblocks > 1000):
 
-  ##Block averaging##
   #Number of blocks to average over can use integer division
   #to round down to deal with left over elements being ignored 
   numberofblocks=len(avg_u)//2
@@ -65,17 +60,40 @@ while (numberofblocks > 6):
   
   #Calculating the standard deviation
   std_dev.append(standarddev(avg_u))
+  diff = abs(std_dev[i-1]-std_dev[i])
+   ##if smallest gradient save element
+  if (diff < mindiff):
+     mindiff = diff
+     true_stddev = std_dev[i-1]
+     
   u_err.append(std_deviation(avg_u))
 
   i += 1
-  
+
+#To find real value of std_dev search for steps where the difference is minium
+#as the gradient will be the smallest value. Then element k-1 is the true std_dev
+#mindiff = max(std_dev)
+#for (k in range(1,len(std_dev)):
+   #diff = abs(std_dev[k-1]-std_dev[k])
+   ##if smallest gradient save element
+   #if (diff < mindiff):
+     #mindiff = diff
+     #minelement = k-1
+     
+#true_std = std_dev[minelement]
+print true_stddev
+print std_dev
+
 #write block averaged to file
-avgdata = 'b_avg_' + data + '.dat'
-np.savetxt(avgdata, (b_length[0:i],std_dev[0:i]), delimiter=" ", fmt="%15.10f")
+avgdata = 'avg' + data + '.dat'
+#np.savetxt(avgdata, (np.mean(u, dtype=np.float64),true_std, delimiter=",", fmt="%15.10f")
 
 #Plotting the data
-plt.plot(b_length, std_dev/std_d, 'ro')
-plt.errorbar(b_length, std_dev/std_d, u_err/std_d)
+#plt.plot(b_length, std_dev/std_d, 'ro')
+#plt.errorbar(b_length, std_dev/std_d, u_err/std_d)
+
+plt.plot(b_length, std_dev, 'ro')
+plt.errorbar(b_length, std_dev, u_err)
 
 d_name = 'std' + data
 #plt.plot(time,u)
