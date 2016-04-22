@@ -1,14 +1,16 @@
 #!/bin/bash
+from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
 #to include floating point division by default
-from __future__ import division
+
 #os.chdir(r'C:\Users\Oliver\Desktop')
 
 def blockavg(quantity, nb):
+  blocked_quan=[]
   #blocked_quan = np.mean(quantity.reshape(-1, blocklen), 1, dtype=np.float64)
-  for i in range(0,len(nb-1)):
-    blocked_quan[i]=(quantity[i]+quantity[i+1])/2.0
+  for i in range(0,(nb-1)):
+    blocked_quan.append((quantity[i]+quantity[i+1])/2.0)
 
   return blocked_quan
 
@@ -20,13 +22,13 @@ def std_deviation(array):
   sqofmean = np.square(array_mean)
 
   #return (meanofsq - sqofmean)
-  return np.std(array)
+  return np.std(array)/u.size
 
 #Don't know why it is not working this way
 def standarddev(data, blen, nb, mean):
   s=0
   count=0
-  while (count < nb):
+  while (count < len(data)):
     s = s + ((data[count] - mean)**2)
     count += 1
   return np.sqrt(s/(nb-1.0))/np.sqrt(nb)
@@ -40,9 +42,11 @@ time, t, k, pot, u, p = np.genfromtxt(data_tup, usecols=[0,1,2,3,4,5], unpack=Tr
 #number of block lengths to try
 n_block = 1024.0
 #Allocate arrays
-b_length = np.zeros(n_block)
-std_dev = np.zeros(n_block)
-
+#b_length = np.zeros(n_block)
+#std_dev = np.zeros(n_block)
+b_length = []
+std_dev = []
+u_err = []
 mean=np.mean(u, dtype=np.float64)
 std_d = std_deviation(u)
 print std_d
@@ -50,11 +54,12 @@ avg_u=blockavg(u, u.size)
 
 i=0
 c=0
-while (numberofblocks <= n_block):
+numberofblocks=u.size
+while (numberofblocks > 6):
   if (i==0):
-    b_length[i] = 1
-    intervals = 1.0
-    std_dev[i] = std_deviation(u)
+    b_length.append(1)
+    std_dev.append(std_deviation(u))
+    u_err.append(std_deviation(u))
     print 'i=0'
       
   else:
@@ -65,18 +70,19 @@ while (numberofblocks <= n_block):
     numberofblocks=(u.size)//(2**i)
     
     ##Block averaging##
-    if (avg_u.size % numberofblocks != 0):
-      numberofblocks -=  1
+    #if (avg_u.size % numberofblocks != 0):
+      #numberofblocks -=  1
       #to skip last odd element
     
     print 'nb', numberofblocks
-    b_length[i]=2**i
+    #b_length[i]=2**i
+    b_length.append(2**i)
     avg_u = blockavg(avg_u, numberofblocks)
- 
+    u_err.append(np.std(avg_u)/len(avg_u))
     #calc std deviation for block length
     #std_dev[i]=std_deviation(avg_u, numberofblocks)
     #std_dev[i] = std_deviation(avg_u)
-    std_dev[i] = standarddev(avg_u, b_length[i], numberofblocks, mean)
+    std_dev.append(standarddev(avg_u, b_length[i], numberofblocks, np.mean(avg_u)))
     
   i += 1
   c += 1
@@ -85,9 +91,12 @@ while (numberofblocks <= n_block):
 avgdata = 'b_avg_' + data + '.dat'
 #write block averaged to file
 #np.savetxt(avgdata, (b_length[0:i],std_dev[0:i]), delimiter=" ", fmt="%15.10f")
-
-print b_length[0:i], std_dev[0:i]/std_d
-plt.plot(b_length[0:i], std_dev[0:i]/std_d, 'ro') 
+print u_err
+#print b_length[0:i], std_dev[0:i]
+print b_length, std_dev
+plt.plot(b_length, std_dev/std_d, 'ro')
+plt.errorbar(b_length, std_dev/std_d, u_err/std_d)
+#plt.plot(b_length[0:i], std_dev[0:i], 'ro') 
 
 d_name = 'std' + data
 #plt.plot(time,u)
