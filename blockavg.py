@@ -13,7 +13,7 @@ def blockavg(quantity, nb):
 
 #Quick standard deviation with numpy
 def std_deviation(array):
-  return np.std(array)/len(array)
+  return np.std(array)/np.sqrt(len(array))
 
 #Standard deviation for each block
 def standarddev(array):
