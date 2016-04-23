@@ -4,7 +4,7 @@ gfortran -o md3 md3.f90
 # echo compiled
 
 #Production timesteps
-n_timestep="100000"
+n_timestep="500000"
 dest_mean=/home/oliver/Desktop/molsim/meanvals.dat
 echo "Timesteps" $n_timestep >> "$dest_mean"
 echo "Temperature, Kinetic, Potential, Total Energy, Pressure" >> "$dest_mean"
@@ -17,7 +17,7 @@ crystal="initial_coords_256"
 
 temp="1.00"
 end_temp="2.5"
-tincr="0.05"
+tincr="0.1"
 
 while [ 0 -lt $(echo $temp $end_temp | awk '{if ($1<=$2) print 1; else print 0;}') ]
 do
