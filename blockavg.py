@@ -87,7 +87,7 @@ data=raw_input()
 data_tup = data + '.tup'
 
 #unpack the data from the .tup
-time, t, k, u,pot, p = np.genfromtxt(data_tup, usecols=[0,1,2,3,4,5], unpack=True)
+time, t, k, u, pot, p = np.genfromtxt(data_tup, usecols=[0,1,2,3,4,5], unpack=True)
 
 ustd = findstd(u, 'internale')
 tempstd = findstd(t, 'Temperature')
