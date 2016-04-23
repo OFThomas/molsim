@@ -1,15 +1,26 @@
 #!/bin/bash
-#rm ./temp.txt
-
-if ! [ -s temp.txt ]; then
-  for file in prod*.tup
-  do 
-  name=${file::-4}
-  python blockavg.py << EOF >> temp.txt
-  $name
+if [ -s temp.txt ]; then
+rm ./temp.txt
+rm ./fluc.txt
+for file in prod*.tup
+do 
+name=${file::-4}
+python blockavg.py << EOF >> temp.txt
+$name
 EOF
 echo $name
+
+initialT=${name:5}
+initialT=$(echo $initialT | awk '{print $1/100}') 
+python fluc.py << EOF >> fluc.txt
+$name
+$initialT
+256
+EOF
 done 
 fi 
-  echo""
-  python plotting.py &
+
+echo""
+
+python bplotting.py 
+display 'cv.png'

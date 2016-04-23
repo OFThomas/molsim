@@ -13,7 +13,7 @@ def blockavg(quantity, nb):
 
 #Quick standard deviation with numpy
 def std_deviation(array):
-  return np.std(array)/np.sqrt(len(array))
+  return np.std(array)/(len(array))
 
 #Standard deviation for each block
 def standarddev(array):
@@ -44,7 +44,7 @@ def findstd(datain, name):
 
   i=1
   mindiff = 10
-  while (numberofblocks > 200):
+  while (numberofblocks > 100):
 
     #Number of blocks to average over can use integer division
     #to round down to deal with left over elements being ignored 
@@ -57,7 +57,7 @@ def findstd(datain, name):
   
     #To find real value of std_dev search for steps where the difference is minium
     #as the gradient will be the smallest value. Then element k-1 is the true std_dev
-    diff = abs(std_dev[i-1]-std_dev[i])
+    diff = abs((std_dev[i]-std_dev[i-1])/(b_length[i] - b_length[i-1]))
   
     ##if smallest gradient save element
     if (diff < mindiff):
