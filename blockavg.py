@@ -13,7 +13,7 @@ def blockavg(quantity, nb):
 
 #Quick standard deviation with numpy
 def std_deviation(array):
-  return np.std(array)/(len(array))
+  return np.std(array)/np.sqrt(len(array))
 
 #Standard deviation for each block
 def standarddev(array):
@@ -44,7 +44,7 @@ def findstd(datain, name):
 
   i=1
   mindiff = 10
-  while (numberofblocks > 100):
+  while (numberofblocks > 500):
 
     #Number of blocks to average over can use integer division
     #to round down to deal with left over elements being ignored 

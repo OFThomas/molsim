@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ -s temp.txt ]; then
+if ! [ -s temp.txt ] || ! [ -s fluc.txt ] ; then
 rm ./temp.txt
 rm ./fluc.txt
 for file in prod*.tup
