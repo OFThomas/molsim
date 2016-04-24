@@ -19,4 +19,4 @@ N=int(raw_input())
 time, t, k, u, pot, p = np.genfromtxt(data_tup, usecols=[0,1,2,3,4,5], unpack=True)
 
 c_v = 1.5*1/(1 - (2/(3*N*initialT**2))*(form(1.5*N*t)))
-print initialT, c_v-1.5
+print initialT, c_v-1.5, (np.std(t))
