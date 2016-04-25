@@ -22,7 +22,7 @@ print deriv
 fit= np.polyval(p, temp)
 cv= np.polyval(deriv, temp)
 
-plt.plot(temp, u, 'o')
+plt.plot(temp, u, 'ro')
 print temp
 plt.errorbar(temp, u, yerr=2*uerr, xerr=2*temperr, fmt='o')
 plt.savefig('uterrors', format='png')

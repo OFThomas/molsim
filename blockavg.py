@@ -66,7 +66,6 @@ def findstd(datain, name):
       element = i-1
      
     err.append(std_deviation(avg_data))
-
     i += 1
     
   plt.plot(b_length, std_dev, 'ro')
