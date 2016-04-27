@@ -5,7 +5,7 @@ rm ./fluc.txt
 for file in prod*.tup
 do 
 name=${file::-4}
-python blockavg.py << EOF >> temp.txt
+python blockavg.py << EOF >> temp$name.txt
 $name
 EOF
 echo $name
