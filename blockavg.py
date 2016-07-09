@@ -27,6 +27,9 @@ def standarddev(array, mean):
     count += 1
   return np.sqrt(s/(len(array)-1.0))/np.sqrt(len(array))
 
+
+######### Main function for calculating Standard deviation ###########
+
 def findstd(datain, name):
   #Allocate arrays
   b_length = []
@@ -51,8 +54,8 @@ def findstd(datain, name):
     #Number of blocks to average over can use integer division
     #to round down to deal with left over elements being ignored 
     numberofblocks=len(avg_data)/2.0
-    b_length.append(2**i)  
-    #avg_data = blockavg(avg_data, int(numberofblocks))
+    b_length.append(2**i)  )
+
     avg_data = blockavg(avg_data, len(avg_data))
     #Calculating the standard deviation
     std_dev.append(standarddev(avg_data, mean))
@@ -69,8 +72,8 @@ def findstd(datain, name):
      
     err.append(std_deviation(avg_data))
     i += 1
-  for i in range(0,len(b_length)-1):
-  	print b_length[i], std_dev[i]
+
+  #plot x=block length, y=standard dev, with errorbars from the block averaged data
   plt.plot(b_length, std_dev, 'ro')
   plt.errorbar(b_length, std_dev, err)
 
@@ -80,7 +83,10 @@ def findstd(datain, name):
   d_name = 'std'+ name + data + '.png'
   plt.savefig(d_name, format='png')
   plt.close()
+
+  #return true standard dev, from the minimum gradient method
   return true_stddev
+
 ################################## End Of Functions ##############################  
   
 #Read in Production tup file
@@ -97,9 +103,6 @@ print np.mean(t, dtype=np.float64), tempstd, np.mean(u, dtype=np.float64), ustd
 #write block averaged to file
 avgdata = 'avg' + data + '.dat'
 
-#Plotting the data
-#plt.plot(b_length, std_dev/std_d, 'ro')
-#plt.errorbar(b_length, std_dev/std_d, u_err/std_d)
 
 
 
